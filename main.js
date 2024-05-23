@@ -46,32 +46,48 @@ const user2 = {
 console.log(findCity(user2));
 
 // Function 3
-const objectCopy = (object) => {
-    if (object === null || typeof object !== 'object') {
-      return object;
+const deepcopy = (originalUser) => {
+    if (originalUser === null || typeof originalUser !== 'object') {
+        return originalUser;
     }
-  
-    let newObject = { ...object };
-    for (let key in newObject) {
-      newObject[key] = objectCopy(newObject[key]);
-    }
-  
-    return newObject;
-  }
 
-  const originalUser = {
+    const copiedUser = Array.isArray(originalUser) ? [] : {};
+
+    for (let key in originalUser) {
+        copiedUser[key] = deepcopy(originalUser[key]);
+    }
+
+    return copiedUser;
+};
+
+const originalUser = {
     firstName: "Giorgi",
     lastName: "Giorgadze",
     profile: {
         age: 27,
         occupation: "Web Developer",
-    }
-  };
+    },
+    skills: [
+        "JavaScript",
+        "React.js",
+        "Node.js",
+    ]
+};
   
-  const copyUser = objectCopy(originalUser);
-  
-  console.log(copyUser);
-  console.log(copyUser === originalUser);
-  console.log(copyUser.profile === originalUser.profile);
-  console.log(copyUser.profile.age === originalUser.profile.age);
-  console.log(copyUser.profile.occupation === originalUser.profile.occupation);
+const copiedUser = {
+    ...originalUser,
+    profile: {
+        ...originalUser.profile
+    },
+    skills: [
+        ...originalUser.skills
+    ],
+}
+
+console.log(originalUser)
+console.log(copiedUser);
+console.log(copiedUser === originalUser);
+console.log(copiedUser.profile === originalUser.profile);
+console.log(copiedUser.profile.age === originalUser.profile.age);
+console.log(copiedUser.profile.occupation === originalUser.profile.occupation);
+console.log(copiedUser.skills === originalUser.skills);
