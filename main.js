@@ -67,21 +67,13 @@ const originalUser = {
         age: 27,
         occupation: "Web Developer",
     },
-    skills: [
-        "JavaScript",
-        "React.js",
-        "Node.js",
-    ]
 };
   
 const copiedUser = {
     ...originalUser,
     profile: {
-        ...originalUser.profile
+        ...originalUser.profile[0],
     },
-    skills: [
-        ...originalUser.skills
-    ],
 }
 
 console.log(originalUser)
@@ -90,4 +82,3 @@ console.log(copiedUser === originalUser);
 console.log(copiedUser.profile === originalUser.profile);
 console.log(copiedUser.profile.age === originalUser.profile.age);
 console.log(copiedUser.profile.occupation === originalUser.profile.occupation);
-console.log(copiedUser.skills === originalUser.skills);
