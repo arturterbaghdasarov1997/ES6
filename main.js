@@ -16,15 +16,15 @@ console.log(numArray(3, 2, 7))
 
 // Function 2
 const findCity = (user) => {
-    const { banks } = user || {};
-    const { address } = (banks && banks[2]) || {};
-    const { city } = address || {};
-
-    return city;
+    if (user && user.banks && user.banks[2] && user.banks[2].address && user.banks[2].address.city) {
+        return user.banks[2].address.city;
+    }
+    return undefined;
 }
 
 const user = {
     name: "Giorgi",
+    lastName: "Giorgadze",
     banks: [
         { address: { city: "Batumi"} },
         { address: { city: "Kutaisi"} },
@@ -36,6 +36,7 @@ console.log(findCity(user));
 
 const user2 = {
     name: "Mariami",
+    lastName: "Abuladze",
     banks: [
         { address: { city: "Batumi" } },
         { address: { city: "Kutaisi" } },
@@ -59,27 +60,26 @@ const originalUser = {
     ]
 };
 
-const deepCopy = (object) => {
-    if (object === null) return null;
-    if (typeof object !== 'object') return object;
-
-    if (Array.isArray(object)) {
-        return object.map(item => deepCopy(item));
+const deepCopy = (obj) => {
+    if (obj === null || typeof obj !== 'object') {
+        return obj;
     }
 
-    const result = {};
-    for (const fieldName in object) {
-        if (object.hasOwnProperty(fieldName)) {
-            result[fieldName] = deepCopy(object[fieldName]);
+    const copy = Array.isArray(obj) ? [] : {};
+
+    for (let key in obj) {
+        if (obj.hasOwnProperty(key)) {
+            copy[key] = deepCopy(obj[key]);
         }
     }
-    return result;
+    return copy;
 }
 
 const copiedUser = deepCopy(originalUser);
 
 copiedUser.firstName = "Mariami";
 copiedUser.profile.age = 30;
-copiedUser.development.skill1 = "Angular.js"
-console.log(originalUser);
-console.log(copiedUser);
+copiedUser.skills[0].skill1 = "Angular.js";
+
+console.log('Original User:', originalUser);
+console.log('Copied User:', copiedUser);
